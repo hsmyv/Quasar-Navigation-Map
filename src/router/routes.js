@@ -12,6 +12,22 @@ const routes = [
           { path: 'add-route', component: () => import('pages/route/AddRoute.vue') },
           { path: 'saved-routes', component: () => import('pages/route/SavedRoutes.vue') }
         ]
+      },
+      {
+        path: '/auth',
+        component: () => import('pages/AuthPage.vue'),
+        children: [
+          { path: '', component: () => import('pages/auth/LoginSection.vue') },
+          { path: 'register', component: () => import('pages/auth/RegisterSection.vue') }
+        ]
+      },
+      {
+        path: '/account',
+        component: () => import('pages/AccountPage.vue'),
+        children: [
+          { path: '', component: () => import('pages/account/AccountMenu.vue') },
+          { path: 'my-details', component: () => import('pages/account/MyDetails.vue') }
+        ]
       }
     ]
   },
