@@ -14,33 +14,33 @@
         <div class="q-pa-md q-gutter-md">
           <div class="text-center">Register and extra features</div>
 
-          <q-input  outlined stack-label label="First Name">
+          <q-input v-model="firstName" outlined stack-label label="First Name">
             <template v-slot:append>
               <q-icon name="close"/>
             </template>
           </q-input>
-           <q-input  outlined stack-label label="Last Name">
+           <q-input v-model="lastName" outlined stack-label label="Last Name">
             <template v-slot:append>
               <q-icon name="close"/>
             </template>
           </q-input>
-           <q-input  outlined stack-label label="Email">
+           <q-input v-model="email" outlined stack-label label="Email">
             <template v-slot:append>
               <q-icon name="close"/>
             </template>
           </q-input>
-           <q-input  outlined stack-label label="Password">
+           <q-input v-model="password" outlined stack-label label="Password">
             <template v-slot:append>
               <q-icon name="close"/>
             </template>
           </q-input>
-           <q-input  outlined stack-label label="Confirm Password">
+           <q-input v-model="confirmPassword" outlined stack-label label="Confirm Password">
             <template v-slot:append>
               <q-icon name="close"/>
             </template>
           </q-input>
           <div>
-            <q-btn color="black" size="lg" class="full-width" label="Register"/>
+            <q-btn @click="register" color="black" size="lg" class="full-width" label="Register"/>
           </div>
           <div class="q-px-md q-mt-xl text-center">
             <div class="q-mb-md no-account">Do you have an account?</div>
@@ -52,6 +52,30 @@
   </q-page>
 </template>
 <script setup>
+
+import { ref } from 'vue'
+import { useUserStore } from 'src/stores/user-store'
+
+const userStore = useUserStore()
+const firstName = ref('')
+const lastName = ref('')
+const email = ref('')
+const password = ref('')
+const confirmPassword = ref('')
+
+const register = async () => {
+  await userStore.getSanctumCookie()
+  await userStore.register(
+    firstName.value,
+    lastName.value,
+    email.value,
+    password.value,
+    confirmPassword.value
+  )
+  const user = await userStore.fetchUser()
+  console.log(user)
+  userStore.setUser(user.data)
+}
 </script>
 <style lang="scss">
 #registrationPage {

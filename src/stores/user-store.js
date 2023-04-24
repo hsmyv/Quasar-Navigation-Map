@@ -29,6 +29,19 @@ export const useUserStore = defineStore('user', {
         if (error) throw error
       }
     },
+    async register (firstName, lastName, email, password, confirmPassword) {
+      try {
+        await server.post('register', {
+          first_name: firstName,
+          last_name: lastName,
+          email,
+          password,
+          password_confirmation: confirmPassword
+        })
+      } catch (error) {
+        if (error) throw error
+      }
+    },
     async fetchUser () {
       try {
         return await server.get('api/user')
@@ -38,8 +51,8 @@ export const useUserStore = defineStore('user', {
     },
     setUser (payload) {
       if (payload.id) this.id = payload.id
-      if (payload.firstName) this.firstName = payload.firstName
-      if (payload.lastName) this.lastName = payload.lastName
+      if (payload.first_name) this.firstName = payload.first_name
+      if (payload.last_name) this.lastName = payload.last_name
       if (payload.email) this.email = payload.email
     },
     clearUser () {
@@ -48,5 +61,6 @@ export const useUserStore = defineStore('user', {
       this.lastName = null
       this.email = null
     }
-  }
+  },
+  persist: true
 })
